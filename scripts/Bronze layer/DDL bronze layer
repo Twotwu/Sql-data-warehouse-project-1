@@ -1,9 +1,15 @@
 /*
-================================================
-Checking table and if exist drop them, and creating table
-for the bronze layer 
+================================================================================
+DDL script: Create Bronze Tables
+________________________________________________________________________________
+Script purpose:
+	
+	This script create the Bronze later schema and tables.
+	Dropping the existing table if they already exists.
+	Running this script create the bronze layaer which is mainly preparing to 
+	loading data from source with no transformation.
 
- ===============================================
+ ===============================================================================
 */
 
 
