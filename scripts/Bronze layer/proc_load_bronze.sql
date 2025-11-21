@@ -1,13 +1,20 @@
 /*
-====================================================
-Standard Procedecure for truncating and loading data.
+================================================================================
+Stored Procedure: Load Bronze layer data
+________________________________________________________________________________
+Script purpose:
+	The store procedure load data from csv files from CRM and ERP sytems
 
-Parameter: 
-none 
+Actions Performed: 
+	Truncates bronze tables.
+	Load data from source files into the bronze layer tables
 
-usage example:
-exec bronze.load_bronze
-====================================================
+Parameters:
+	none
+
+Usage Example:
+	EXEC bronze.load_bronze;
+ ===============================================================================
 */
 
 CREATE OR ALTER PROCEDURE bronze.load_bronze AS
