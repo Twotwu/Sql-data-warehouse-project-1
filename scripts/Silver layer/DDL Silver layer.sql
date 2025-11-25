@@ -5,7 +5,7 @@ ________________________________________________________________________________
 Script purpose:
 	This script create the silver later schema and tables.
 	Dropping the existing table if they already exists.
-	Running this script to re-define the DDL structure of the bronze tables
+	Running this script to re-define the DDL structure of the silver tables
  ===============================================================================
 */
 
