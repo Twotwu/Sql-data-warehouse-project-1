@@ -1,56 +1,93 @@
-# Data Warehouse and Analytics Project
-Building a SQL warehouse with SQL server, which will include ETL processes, data modeling and analytics. This project demostrate what I have learn in my ambitious journey to becoming a data, devop and AI engineer in pursuit of mastering the usage of data.
-#
-# Project Overview
-This Project involves: 
+# ⭐ Data Warehouse & Analytics Engineering Project
+End-to-End SQL Warehouse | ETL Pipelines | Data Modelling | Power BI Analytics
 
-1. **Data Architechure**: Using the Medallion Architecture of using **Bronze, Silver** and **Gold** layers to design and build a modern data warehouse.
-2. **ETL Pipelines**: Extract, Transform and Load data from source into the Warehouse and creating Power BI report.
-3. **Data Modelling**:Develop and optimise a fact and dimension tables in the **Gold** layer.
-4. **Analytics & Reporting**: Design and build a Power BI report for actionable insights
-
-This repository showcase my skills in SQL development, Data architect, Data engineering, ETL Pipeline development, Data modeling and Power BI data analytics.
+This project demonstrates my ability to design and build a complete data warehouse using SQL Server, Medallion Architecture, SQL-based ETL pipelines, and Power BI reporting.
+It reflects the practical skills I’ve developed as I work toward becoming a Data Engineer, DevOps Engineer, and AI Engineer, mastering data from raw ingestion to automated analytics.
 
 #
-#Tools used:
-1. Datasets: CSV files.
-2. SQL Server Express: Hosting my own SQL daatabase.
-3. SQL Server Management Studio (SSMS): Managing and interacting with datasets.
-4. GIT Repository: Management of versions of my code.
-5. DrawIO: Design data architecture, models, flows and diagrams.
+# 📌 Project Overview
+
+This project covers the full lifecycle of modern data engineering:
+
+1. Data Architecture:
+Built using Medallion Architecture (Bronze → Silver → Gold) to ensure clean data flow, auditability, and scalable analytics.
+
+2. ETL Development:
+Created SQL-based ETL processes that extract raw CSV files (ERP & CRM systems), clean and transform them, and load them into structured warehouse layers.
+
+3. Data Modelling:
+Designed a Star Schema in the Gold Layer, including Fact tables and Dimension tables optimized for analytics.
+
+4. Analytics & Reporting
+Built a Power BI report focusing on:
+-Customer behaviour
+-Sales trends
+-Product performance
+-Key business KPIs
+
+Helping stakeholders access meaningful, actionable insights.
 
 #
-# Project Requirements
-**Build a Data Warehouse (Data Engineering) and Power BI Reports (Data Analytics)**
-
-**Objective:**
-Develop a data warehouse using SQL from two sources systems, ERP and CRM, provided as CSV files to enable analytics and reporting for informed decision-making.
-
-- **Data Source**: Import data from two sources systems, ERP and CRM, provided as CSV files
-- **Data Cleaning**: Clean and impove the quality issues
-- **Integration**: Combine sources into single, friendly data model to use for analysis.
-- **Scope**: Only the latest dataset required, current data only.
-- **Documentation**: Clear documentation of data model to support stakeholders.
+# 🛠 Tools & Technologies Used
+|Category|	Tools|
+|--|--|
+|Databases|	SQL Server Express, SSMS
+|ETL|	SQL transformations, Stored Procedures, Staging Architecture
+|Modelling|	Star Schema, Fact & Dimension Modeling
+|Analytics|	Power BI
+|Architecture|	Medallion (Bronze/Silver/Gold)
+|Documentation|	Draw.io (Architecture & Data Model diagrams)
+|Version Control|	Git & GitHub
+|Data Source|	Raw CSV Files (ERP + CRM)
 
 #
-# BI: Analytics and Reporting
-**Objective**:
+# 📂 Project Requirements
 
--Customer Behaviour
+- Data Warehouse Development
+  - Built a multi-layer SQL warehouse
+  - Ingested ERP & CRM source systems
+  - Implemented Bronze → Silver → Gold pipelines
+
+-Data Cleaning & Transformation
+  - Fixed data quality issues
+  - Resolved duplicates & inconsistent records
+  - Normalised and standardized structures
+
+- Data Integration
+  - Unified ERP + CRM data
+  - Created consistent business keys
+  - Built stable relationships for analytics
+
+-BI & Analytics
+  - Delivered a Power BI dashboard with:
+  - Customer behaviour
+  - KPIs for quick business decisions
 
 <img width="1267" height="705" alt="image" src="https://github.com/user-attachments/assets/17be6109-c1bf-4cf3-829a-b0541bb89236" />
 
-**Insights to empower stakeholders for stragetic decisions**
 #
-# Data Architecture
-The data architeture for this project follows Medallion Architure of using **Bronze, Silver** and **Gold** layers
+# 🏗 Data Architecture (Medallion Layers)
 
-<img width="1026" height="791" alt="Data Architecture drawio" src="https://github.com/user-attachments/assets/214b549c-22bd-4f3f-a537-423f483fd1e4" />
+- Bronze Layer — Raw Data
+ - Ingested directly from CSV files
+ - No transformations
+ - Maintains original source data for audit and traceability
 
-- **Bronze Layer**: Ingest raw dats without any clean or transformations in to SQL Server Database.
-- **Silver Layer**: data cleaning, transformation, standardisation, normalization and loading it to Silver tables preparing the data for analysis.
-- **Gold Layer**: Load business-ready data, using a star schema model ready for analysis and reporting
+- Silver Layer — Clean & Standardised Data
+  - Applied transformations and validations
+  - Cleaned duplicates
+  - Standardised formats & structures
+  - Prepared for modelling
+
+- Gold Layer — Business Layer
+  - Star Schema with FactSales, DimCustomer, DimProduct, and others
+  - Optimized for Power BI and analytical queries
+  - Business logic applied
+    
+<img width="1026" height="791" alt="Data Architecture drawio" src="https://github.com/user-attachments/assets/3340676c-90df-4216-8f97-505f1f7ebacb" />
+
 
 #
-# About Me
-I am Kevin Zola Shembe a Data Analyst, I have a mission to becoming a Data, devop and AI Engineer to manipulate and data end to end.
+# 👤 About Me
+I’m Kevin Zola Shembe, a Data Analyst growing into Data Engineering, DevOps Engineering, and AI Engineering.
+My mission is to master the end-to-end lifecycle of data — from raw ingestion, pipelines, modelling, automation, to insights and AI applications.
