@@ -5,8 +5,12 @@ ________________________________________________________________________________
 Script purpose:
 	
 	This script create the gold layer schema and views.
+	This layer applies all the business rules.
 	Dropping the existing view if they already exists.
 	Running this script to re-define the DDL structure of the gold views
+
+Usage:
+	The views can be used for analytics and reporting.
 
  ===============================================================================
 */
@@ -88,5 +92,4 @@ LEFT JOIN Gold.dim_customers c
 ON s.sls_cust_id = c.customer_number
 LEFT JOIN Gold.dim_products p
 ON s.sls_prd_key = p.product_id
-
 
