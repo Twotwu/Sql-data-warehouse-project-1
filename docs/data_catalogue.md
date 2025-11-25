@@ -11,6 +11,7 @@
 |last_name|NVARCHAR|Surname of the customer|
 |country|NVARCHAR|Country each customer belong to e.g Australia|
 |gender|NVARCHAR|The gender for each customer e.g Male, Female, n/a|
+|marital_status|NVARCHAR|States where in customer is married or not e.g Married, Single|
 |birth_date|DATE|Date of birth for each cusotmer e.g 1971-10-06|
 |create_date|DATE|Date the customer record was created as YYYY-MM_DD|
 
