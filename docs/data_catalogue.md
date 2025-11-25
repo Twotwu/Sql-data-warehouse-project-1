@@ -1,4 +1,4 @@
-**The Gold Layer** is for business level use and follows business assumptions. It consist of Fact table and Dimension table.
+**The Gold Layer** is for business level use and follows business assumptions. It consist of Fact table and Dimension table. These tables purpose is for analysis and reporting.
 
 1. **Gold.dim_customers** : Contains customer demographic detials.
    
