@@ -1,0 +1,26 @@
+table DynamicTop
+	lineageTag: 80ffbae2-5b9f-41a9-ad07-fac9b3beaee6
+
+	measure 'DynamicTop Value' = SELECTEDVALUE('DynamicTop'[DynamicTop], 0)
+		formatString: 0
+		lineageTag: e3c0a7a3-5b8a-439f-9572-fcb42a202273
+
+	column DynamicTop
+		formatString: 0
+		lineageTag: 36d0acb3-9e45-43e8-88da-7a74df38251c
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition DynamicTop = calculated
+		mode: import
+		source = GENERATESERIES(0, 50, 1)
+
+	annotation PBI_Id = 2124ee5e702f4011b4ca0e2f7527df4d
+

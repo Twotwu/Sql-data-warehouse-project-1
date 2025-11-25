@@ -1,0 +1,42 @@
+table '0. All Measures '
+	lineageTag: 4bd1ce8d-fe09-47e1-8175-3641eb319cb6
+
+	measure Revenue =
+			SUMX('Gold fact_sales'
+			                ,'Gold fact_sales'[sales])
+		lineageTag: 38cb6c25-57ed-49a4-bea1-2171b244cc61
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quantity =
+			CALCULATE(
+			                SUM('Gold fact_sales'[quantity])
+			)
+		formatString: 0
+		lineageTag: 65c5c9af-b9cf-4940-8656-40c41f2484b4
+
+	measure 'Number of Transcactions' = COUNTROWS('Gold fact_sales')
+		formatString: 0
+		lineageTag: 8cb80e37-0d20-46aa-b2cd-1e6b874f0ca6
+
+	column Column1
+		dataType: string
+		lineageTag: 04766133-fbda-4773-9272-88c84c565736
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '0. All Measures ' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,38 @@
+relationship f04f2c45-5c47-5069-0c94-d31b239ba458
+	fromColumn: 'Gold fact_sales'.customer_key
+	toColumn: 'Gold dim_customers'.customer_key
+
+relationship 05f3f0a8-759b-be11-01fe-65558cfc738f
+	fromColumn: 'Gold fact_sales'.product_key
+	toColumn: 'Gold dim_products'.product_number
+
+relationship c580c860-f877-4b9b-800d-99cfa0f940fc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gold fact_sales'.order_date
+	toColumn: LocalDateTable_9838c3bf-8c2b-460c-855e-80a7c6e11c0d.Date
+
+relationship 23431a14-125e-4d45-8b99-bff81b70bada
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gold fact_sales'.shipping_date
+	toColumn: LocalDateTable_99a340b1-4feb-4434-976a-4c52f9fab01b.Date
+
+relationship 9530d85e-98f3-48c2-9994-e178324f96ab
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gold fact_sales'.due_date
+	toColumn: LocalDateTable_c86f7e90-1646-4fd2-9d12-4da13c336d18.Date
+
+relationship 6cba85fd-5ca3-4ce7-b118-4b1f9f00c942
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gold dim_products'.start_dates
+	toColumn: LocalDateTable_00a2bf26-b478-499e-945f-4b823013fca0.Date
+
+relationship 713146fb-f68f-4830-824a-3b884cc47c5c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gold dim_customers'.birth_date
+	toColumn: LocalDateTable_61c80ffe-7fec-415b-902a-db29f13fe562.Date
+
+relationship 5a8cb472-ae24-4065-a1dd-4f01b9e48689
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Gold dim_customers'.create_date
+	toColumn: LocalDateTable_54f814cd-e459-4b4d-9c29-d31b4c4ce531.Date
+

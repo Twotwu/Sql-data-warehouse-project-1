@@ -1,0 +1,382 @@
+table '1. Customer Measure '
+	lineageTag: 2a6caabd-4ef2-43b4-90bc-64f637464a26
+
+	measure '%Married Customers' = ```
+			
+			        DIVIDE( 
+			            [Married Customers],
+			            [Revenue]
+			        )
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 13811eb8-70b0-4b57-bba7-9b82624d0860
+
+	measure '%Single Customers' = ```
+			
+			            DIVIDE(
+			                    [Single Customers],
+			                    [Revenue]
+			            )
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 8e369310-cb0d-43e3-b2e2-301904c08d65
+
+	measure 'Avg caption' = ```
+			
+			    var _AvgRevAgeGroup = 
+			        AVERAGEX(
+			            SUMMARIZE(
+			                    'Gold fact_sales',
+			                        'Gold dim_customers'[Age Category]),
+			                        [avg]
+			        )
+			
+			    var _RevenueFilteredTable = 
+			            SUMX(
+			                FILTER( 
+			                    SUMMARIZE('Gold fact_sales',
+			                    'Gold dim_customers'[Age Category]
+			                    ), [Revenue]>_AvgRevAgeGroup
+			                ), [Revenue]
+			            )
+			    var _TopAgeGroup =
+			            TOPN(1,
+			            DISTINCT('Gold dim_customers'[Age Category]),
+			            [Revenue],
+			            DESC,
+			            'Gold dim_customers'[Age Category], 
+			            ASC)
+			            
+			    var _RevenueContributor =
+			            DIVIDE( _RevenueFilteredTable,
+			                [Revenue]
+			            )
+			    var _TopContributor =
+			          DIVIDE( SUMX(
+			            SUMMARIZE(_TopAgeGroup,
+			             'Gold dim_customers'[Age Category]
+			             ),
+			           [Revenue]
+			           ),
+			           _RevenueFilteredTable)
+			
+			RETURN 
+			
+			   FORMAT(_RevenueContributor, "#.#%")& " of Revenue is attributed by the Yellow bars which is the Age-Group surpassing the Average Revenue Line. It is led by " & _TopAgeGroup& " age group which attributes "& FORMAT(_TopContributor, "#.#%") & " of the Yellow bars"
+			```
+		lineageTag: 59827f32-78cd-4b17-b1b3-721ff0d20974
+
+	measure 'CF age group' = ```
+			IF( [Revenue]> [Avg], 
+			                            1,0)
+			```
+		formatString: 0
+		lineageTag: 301625d9-22c1-4016-a5a0-f1296370a79e
+
+	measure Avg = ```
+			
+			    AVERAGEX(
+			        ALL('Gold dim_customers'[Age Category]), 
+			           [Revenue]
+			            )
+			```
+		lineageTag: e9255b9e-c6b2-4f34-b95e-1fe3ba77b50c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Married Caption' = ```
+			
+			    -- Leading country with the most people
+			    VAR _Leading =
+			            TOPN(1,
+			            DISTINCT('Gold dim_customers'[country]),
+			            [%Married Customers],
+			            DESC
+			        )
+			    --Revenue Contributor of the top country
+			    VAR _LeadingPerc =
+			            CALCULATE(
+			                    [%Married Customers],
+			                    _leading
+			        )
+			    --Revenue of the Leading country with the most people
+			    VAR _LeadingRevenue = 
+			            CALCULATE([Married Customers], 
+			                _Leading
+			            )
+			    --Number of Countries
+			    VAR _NumCountry =
+			            DISTINCTCOUNT('Gold dim_customers'[country])
+			     --Number of Customers
+			    VAR _NumMarried =
+			            CALCULATE(DISTINCTCOUNT('Gold fact_sales'[customer_key]),
+			                'Gold dim_customers'[marital_status] = "Married"
+			            )
+			    -- Highest Country 
+			    VAR _CountryHighestRevenue = 
+			            TOPN(1,
+			                DISTINCT('Gold dim_customers'[country]),
+			                [Married Customers],
+			                DESC
+			            )
+			    --Highest Revenue
+			    Var _HighestRevenue = 
+			            CALCULATE([Married Customers],
+			                _CountryHighestRevenue
+			            )
+			    -- % of the highest
+			    VAR _HighestPerc =
+			            DIVIDE(_HighestRevenue,
+			                    [Married Customers]
+			            )
+			   VAR _males = 
+			            CALCULATE([Married Customers],
+			                'Gold dim_customers'[gender] = "Male"
+			            )
+			    -- % of Males
+			    VAR _malesPerc = 
+			           DIVIDE(_males,
+			                [Married Customers]
+			           )
+			     VAR _Females = 
+			            CALCULATE([Married Customers],
+			                'Gold dim_customers'[gender] = "Female"
+			            )
+			    -- % of Married Males
+			     VAR _femalesPerc = 
+			           DIVIDE(_Females,
+			                [Married Customers]
+			           )
+			    RETURN 
+			
+			    _Leading& " ("&FORMAT(_LeadingPerc,"#%")&")" &"  Contributed the most of married customer out of "& 
+			    _NumCountry &" Countries generating "&
+			    FORMAT(_LeadingRevenue,"$#,##0")& ". The Highest Revenue "& 
+			    FORMAT(_HighestRevenue,"$#,##0")&" was generated by "& 
+			    _CountryHighestRevenue& " ("&FORMAT(_HighestPerc,"#%")&"). The are "&
+			    FORMAT(_NumMarried,"#,##0")& " Married customers, Males "&
+			    FORMAT(_malesPerc,"#%")&" and Females "& 
+			    FORMAT(_femalesPerc,"#%")&" contribution to Revenue, both genarating "&
+			    FORMAT(_males,"$#,##0")&" and "&
+			    FORMAT(_Females,"$#,##0")& " respectively"
+			    
+			
+			 
+			```
+		lineageTag: 3f84ddee-8449-4653-a604-a0c01e68c0b1
+
+	measure 'Married Customers' = ```
+			
+			        CALCULATE( 
+			                [Revenue],
+			                FILTER('Gold fact_sales',
+			                        RELATED('Gold dim_customers'[marital_status]) = "Married")
+			        )
+			```
+		lineageTag: 4c4ef9f8-4b16-4163-9b60-fcbf92ccc32a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Single Customers' = ```
+			
+			        CALCULATE( 
+			                [Revenue],
+			                FILTER('Gold fact_sales',
+			                        RELATED('Gold dim_customers'[marital_status]) = "Single")
+			        )
+			```
+		lineageTag: e106fa44-a447-43ef-b1c0-e037fcd8d133
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Single Caption' = ```
+			
+			    -- Leading country with the most people
+			    VAR _Leading =
+			            TOPN(1,
+			            DISTINCT('Gold dim_customers'[country]),
+			            [%Single Customers],
+			            DESC
+			        )
+			    --Revenue Contributor of the top country
+			    VAR _LeadingPerc =
+			            CALCULATE(
+			                    [%Single Customers],
+			                    _leading
+			        )
+			    --Revenue of the Leading country with the most people
+			    VAR _LeadingRevenue = 
+			            CALCULATE([Single Customers], 
+			                _Leading
+			            )
+			    --Number of Countries
+			    VAR _NumCountry =
+			            DISTINCTCOUNT('Gold dim_customers'[country])
+			     --Number of Customers
+			    VAR _NumMarried =
+			            CALCULATE(DISTINCTCOUNT('Gold fact_sales'[customer_key]),
+			                'Gold dim_customers'[marital_status] = "Single"
+			            )
+			    -- Highest Country 
+			    VAR _CountryHighestRevenue = 
+			            TOPN(1,
+			                DISTINCT('Gold dim_customers'[country]),
+			                [Single Customers],
+			                DESC
+			            )
+			    --Highest Revenue
+			    Var _HighestRevenue = 
+			            CALCULATE([Single Customers],
+			                _CountryHighestRevenue
+			            )
+			    -- % of the highest
+			    VAR _HighestPerc =
+			            DIVIDE(_HighestRevenue,
+			                    [Single Customers]
+			            )
+			   VAR _males = 
+			            CALCULATE([Single Customers],
+			                'Gold dim_customers'[gender] = "Male"
+			            )
+			    -- % of Males
+			    VAR _malesPerc = 
+			           DIVIDE(_males,
+			                [Single Customers]
+			           )
+			     VAR _Females = 
+			            CALCULATE([Single Customers],
+			                'Gold dim_customers'[gender] = "Female"
+			            )
+			    -- % of Married Males
+			     VAR _femalesPerc = 
+			           DIVIDE(_Females,
+			                [Married Customers]
+			           )
+			    RETURN 
+			
+			    _Leading& " ("&FORMAT(_LeadingPerc,"#%")&")" &" Contributed the most of single customer out of "& 
+			    _NumCountry &" Countries generating "&
+			    FORMAT(_LeadingRevenue,"$#,##0")& ". The Highest Revenue "& 
+			    FORMAT(_HighestRevenue,"$#,##0")&" was generated by "& 
+			    _CountryHighestRevenue& " ("&FORMAT(_HighestPerc,"#%")&"). The are "&
+			    FORMAT(_NumMarried,"#,##0")& " Single customers, Males "&
+			    FORMAT(_malesPerc,"#%")&" and Females "& 
+			    FORMAT(_femalesPerc,"#%")&" contribution to Revenue, both genarating "&
+			    FORMAT(_males,"$#,##0")&" and "&
+			    FORMAT(_Females,"$#,##0")& " respectively"
+			    
+			
+			 
+			```
+		lineageTag: a2bf6ac6-aba9-47fe-b872-8d98747ed24f
+
+	measure 'Dynamic Rank' = ```
+			
+			    VAR _Rank =
+			        RANKX(all('Gold dim_customers'[Name]),
+			                [Revenue],,DESC)
+			    RETURN 
+			        IF(_Rank<= DynamicTop[DynamicTop Value],
+			            [Revenue]
+			            )
+			```
+		lineageTag: 86a8cdfb-98fa-4162-9e8b-c9a6a8e6bd0e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Male Revenue' = ```
+			
+			        CALCULATE( [Revenue],
+			        'Gold dim_customers'[gender] = "Male"
+			        )
+			```
+		lineageTag: 1898b1c9-7dae-4d39-a417-e548019d5e14
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Female Revenue' = ```
+			
+			        CALCULATE( [Revenue],
+			        'Gold dim_customers'[gender] = "Female"
+			        )
+			```
+		lineageTag: 21546fdf-fe58-4d80-83e8-93ebf4994d88
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Male Revenue' = ```
+			
+			        DIVIDE([Male Revenue],
+			            [Revenue]
+			        )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cd03c577-4d2f-437e-9ac8-f9c74592a826
+
+	measure '%Female Revenue' = ```
+			
+			        DIVIDE([Female Revenue],
+			            [Revenue]
+			        )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: df4a8bd3-d3ff-4733-9409-1c2d042eb128
+
+	measure 'CF Female' = ```
+			
+			        if(
+			            [Female Revenue]>[Male Revenue], 
+			            "Green", "Red"
+			        )
+			```
+		lineageTag: 0e6898d7-d44e-4057-8222-abd01fa07909
+
+	measure 'CF male' = ```
+			
+			        if(
+			            [Female Revenue]<[Male Revenue], 
+			            "Green", "Red"
+			        )
+			```
+		lineageTag: e8a84098-ccdd-42e9-a12c-c78f0906798a
+
+	measure 'Avg Age' = AVERAGE('Gold dim_customers'[Customer Age])
+		formatString: 0
+		lineageTag: cdf78cc3-4963-4813-a183-0ba031a52696
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Num Customer' = DISTINCTCOUNT('Gold dim_customers'[customer_key])
+		formatString: 0
+		lineageTag: ccf697ed-0463-4e20-802c-2ac210c533fd
+
+	measure 'Top Customers' = ```
+			
+			    VAR _SelectedCustomers = SELECTEDVALUE(DynamicTop[DynamicTop])
+			
+			    RETURN
+			    "The "& _SelectedCustomers &" Highest Ranking Customers"
+			```
+		lineageTag: 997bc4a6-f1bd-428b-9374-43404ac90d1d
+
+	column Column1
+		dataType: string
+		lineageTag: 4a3d3604-3fe9-4e48-9f71-a9378d57b54e
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '1. Customer Measure ' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

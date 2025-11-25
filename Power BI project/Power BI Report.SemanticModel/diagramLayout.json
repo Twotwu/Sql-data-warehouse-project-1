@@ -1,0 +1,85 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 418,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Gold dim_customers",
+          "nodeLineageTag": "7a953885-95d7-4b52-82cf-77835a8146e0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 603,
+            "y": 0
+          },
+          "nodeIndex": "Gold dim_products",
+          "nodeLineageTag": "54b382fa-8575-4a81-9f10-86612986db0d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 295,
+            "y": 6
+          },
+          "nodeIndex": "Gold fact_sales",
+          "nodeLineageTag": "05438af5-c53c-44e2-8de4-61c41c08198c",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 887,
+            "y": 99
+          },
+          "nodeIndex": "0. All Measures ",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1171,
+            "y": 99
+          },
+          "nodeIndex": "1. Customer Measure ",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 2
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 94.630192502532935,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

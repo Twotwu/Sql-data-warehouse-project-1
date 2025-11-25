@@ -1,0 +1,129 @@
+table 'Gold fact_sales'
+	lineageTag: 05438af5-c53c-44e2-8de4-61c41c08198c
+
+	column order_number
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: ea2ff842-5e02-4cc8-bc6d-a261df89139c
+		summarizeBy: none
+		sourceColumn: order_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: b06fbd44-ddf9-43e4-b2ec-f8e4dde028c7
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 14230d47-262e-4eb0-86f0-516b7aa1e8f8
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 4a0cdfa3-45d8-4cb1-8f70-02efb4d9a91e
+		summarizeBy: none
+		sourceColumn: order_date
+
+		variation Variation
+			isDefault
+			relationship: c580c860-f877-4b9b-800d-99cfa0f940fc
+			defaultHierarchy: LocalDateTable_9838c3bf-8c2b-460c-855e-80a7c6e11c0d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shipping_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 41d16068-2591-44c4-aa5b-916b482d52e5
+		summarizeBy: none
+		sourceColumn: shipping_date
+
+		variation Variation
+			isDefault
+			relationship: 23431a14-125e-4d45-8b99-bff81b70bada
+			defaultHierarchy: LocalDateTable_99a340b1-4feb-4434-976a-4c52f9fab01b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column due_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 6288e5c6-eb98-4dd8-bcc8-b5602279ac1e
+		summarizeBy: none
+		sourceColumn: due_date
+
+		variation Variation
+			isDefault
+			relationship: 9530d85e-98f3-48c2-9994-e178324f96ab
+			defaultHierarchy: LocalDateTable_c86f7e90-1646-4fd2-9d12-4da13c336d18.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column sales
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 6e9d8787-6319-4124-81f6-1dc863182c80
+		summarizeBy: sum
+		sourceColumn: sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3b5773d0-94e8-46d4-9173-50853469c3c7
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 24592688-ae00-469c-bff9-2c68ec762c2a
+		summarizeBy: sum
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Gold fact_sales' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("DESKTOP-SG4BLSV\SQLEXPRESS"),
+				    Datawarehouse = Source{[Name="Datawarehouse"]}[Data],
+				    Gold_fact_sales = Datawarehouse{[Schema="Gold",Item="fact_sales"]}[Data]
+				in
+				    Gold_fact_sales
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

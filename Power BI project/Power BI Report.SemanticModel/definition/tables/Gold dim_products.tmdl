@@ -1,0 +1,131 @@
+table 'Gold dim_products'
+	lineageTag: 54b382fa-8575-4a81-9f10-86612986db0d
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 16a74320-4ee2-4183-b6b1-1e85dfe48e58
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 0118ab26-df13-48fa-96c7-18782807fd82
+		summarizeBy: none
+		sourceColumn: product_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_id
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 0f7d553d-9a05-4d56-84e3-ff87c11cf152
+		summarizeBy: none
+		sourceColumn: category_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 2b70ffb8-ef37-4a9b-acf3-869170d694ef
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 1d91969c-a19e-483f-b617-ed75e3d5c51e
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: 38626952-fdf6-4fcc-a818-0f407c3eb441
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_category
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: 83967def-dcf7-4d63-9722-801a1fe7ea3f
+		summarizeBy: none
+		sourceColumn: sub_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 85f1e9d9-435d-48a7-b763-fbdf24220817
+		summarizeBy: sum
+		sourceColumn: cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column product_line
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 4c53c7a6-1cf2-4eb9-b36c-df0aca8a1357
+		summarizeBy: none
+		sourceColumn: product_line
+
+		annotation SummarizationSetBy = Automatic
+
+	column maintenance
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: 967d56b7-2a6e-43e4-a2aa-1670979c53b5
+		summarizeBy: none
+		sourceColumn: maintenance
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_dates
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 21b7cc44-eba6-43ee-8079-9c06d28da869
+		summarizeBy: none
+		sourceColumn: start_dates
+
+		variation Variation
+			isDefault
+			relationship: 6cba85fd-5ca3-4ce7-b118-4b1f9f00c942
+			defaultHierarchy: LocalDateTable_00a2bf26-b478-499e-945f-4b823013fca0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'Gold dim_products' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("DESKTOP-SG4BLSV\SQLEXPRESS"),
+				    Datawarehouse = Source{[Name="Datawarehouse"]}[Data],
+				    Gold_dim_products = Datawarehouse{[Schema="Gold",Item="dim_products"]}[Data]
+				in
+				    Gold_dim_products
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
